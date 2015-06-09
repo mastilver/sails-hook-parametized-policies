@@ -1,1 +1,1 @@
-# sails-hook-parametized-policies [![Build Status](https://travis-ci.org/mastilver/sails-hook-parametized-policies.svg)](https://travis-ci.org/mastilver/sails-hook-parametized-policies)
+# sails-hook-parametized-policies [![Build Status](https://travis-ci.org/mastilver/sails-hook-parametized-policies.svg)](https://travis-ci.org/mastilver/sails-hook-parametized-policies) [![Coverage Status](https://coveralls.io/repos/mastilver/sails-hook-parametized-policies/badge.svg?branch=master)](https://coveralls.io/r/mastilver/sails-hook-parametized-policies?branch=master)
