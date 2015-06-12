@@ -23,7 +23,21 @@ describe('hook annotation router', function(){
             },
             paths: {
                 controllers: __dirname + '/controllers',
+                policies: __dirname + '/policies',
+                policiesFactories: __dirname + '/policiesFactories',
             },
+            routes: {
+                'GET /ok': 'MainController.ok',
+                'GET /user': 'MainController.user',
+                'GET /admin': 'MainController.admin',
+            },
+            policies: {
+                'MainController': {
+                    'admin': ['is(\'Admin\')'],
+                    'user': 'is(\'User\')',
+                    'ok': 'accept',
+                }
+            }
         }, function(err, _sails){
 
             if(err) return done(err);
@@ -47,4 +61,23 @@ describe('hook annotation router', function(){
     it('should start the sails server', function(){
         return true;
     });
+
+    it('should not modify non function policies', function(done){
+        request(sails.hooks.http.app)
+            .get('/ok')
+            .expect(200, done);
+    });
+
+    it('should parse function policy', function(done){
+        request(sails.hooks.http.app)
+            .get('/user')
+            .expect('\'User\'', done);
+    })
+
+    it('should parse function policy into an array', function(done){
+        request(sails.hooks.http.app)
+            .get('/admin')
+            .expect('\'Admin\'', done);
+    })
+
 })
