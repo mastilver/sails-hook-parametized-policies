@@ -30,12 +30,14 @@ describe('hook annotation router', function(){
                 'GET /ok': 'MainController.ok',
                 'GET /user': 'MainController.user',
                 'GET /admin': 'MainController.admin',
+                'GET /multiple': 'MainController.multiple',
             },
             policies: {
                 'MainController': {
                     'admin': ['is(\'Admin\')'],
                     'user': 'is(\'User\')',
                     'ok': 'accept',
+                    'multiple': 'multiple(1, \'one\')',
                 }
             }
         }, function(err, _sails){
@@ -71,13 +73,19 @@ describe('hook annotation router', function(){
     it('should parse function policy', function(done){
         request(sails.hooks.http.app)
             .get('/user')
-            .expect('\'User\'', done);
+            .expect('User', done);
     })
 
     it('should parse function policy into an array', function(done){
         request(sails.hooks.http.app)
             .get('/admin')
-            .expect('\'Admin\'', done);
+            .expect('Admin', done);
     })
+
+    it('shoule handle multiple arguments policy', function(done){
+        request(sails.hooks.http.app)
+            .get('/multiple')
+            .expect('1-one', done);
+    });
 
 })

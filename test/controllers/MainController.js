@@ -15,3 +15,7 @@ module.exports.user = function(req, res){
 module.exports.ok = function(req, res){
     res.send();
 }
+
+module.exports.multiple = function(req, res){
+    res.send();
+};

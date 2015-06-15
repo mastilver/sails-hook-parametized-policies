@@ -37,7 +37,7 @@ module.exports = function(sails){
                 if(functionMatches !== null){
 
                     var functionName = functionMatches[1];
-                    var args = functionMatches[2].split(/\s*,\s*/);
+                    var args = JSON.parse('[' + functionMatches[2].replace(/'/g, '"') + ']');
 
                     var policyFactory = require(sails.config.paths.policiesFactories + '/' + functionName);
 
