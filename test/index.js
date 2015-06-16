@@ -4,7 +4,7 @@ var request = require('supertest');
 var Sails = require('sails').Sails;
 
 
-describe('hook annotation router', function(){
+describe('parametized policies hook', function(){
 
     var sails;
 
