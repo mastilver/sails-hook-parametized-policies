@@ -30,5 +30,8 @@
   },
   "sails": {
     "isHook": true
+  },
+  "dependencies": {
+    "esprima": "^2.3.0"
   }
 }

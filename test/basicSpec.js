@@ -88,7 +88,7 @@ describe('parametized policies hook - basic', function(){
             .expect('1-one', done);
     });
 
-    it('should handle json', function(){
+    it('should handle json', function(done){
         request(sails.hooks.http.app)
             .get('/json')
             .expect('json', done);

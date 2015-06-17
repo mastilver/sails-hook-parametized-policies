@@ -1,4 +1,4 @@
-
+var esprima = require('esprima');
 
 
 
@@ -30,14 +30,20 @@ module.exports = function(sails){
 
             if(type === 'string'){
 
-                var functionMatches = obj.match(/(.*)\((.*)\)/);
+                var functionMatches = obj.match(/^(.*)\((.*)\)$/);
 
 
                 // the policy is a function
                 if(functionMatches !== null){
 
-                    var functionName = functionMatches[1];
-                    var args = JSON.parse('[' + functionMatches[2].replace(/'/g, '"') + ']');
+                    var parsed = esprima.parse(functionMatches[0]);
+
+
+                    var functionName = parsed.body[0].expression.callee.name;
+                    var args = parsed.body[0].expression.arguments.map(function(arg){
+                        return arg.value;
+                    });
+
 
                     var policyFactory = require(sails.config.paths.policiesFactories + '/' + functionName);
 

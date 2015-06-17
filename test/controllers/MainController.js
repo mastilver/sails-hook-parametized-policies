@@ -19,3 +19,7 @@ module.exports.ok = function(req, res){
 module.exports.multiple = function(req, res){
     res.send();
 };
+
+module.exports.json = function(req, res){
+    res.send();
+}
