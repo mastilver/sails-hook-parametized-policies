@@ -16,7 +16,7 @@ module.exports = function(sails){
         },
 
         parsePolicies: parsePolicies,
-        parsePolicy: parsePolicy,
+        parseEsprima: parseEsprima,
     };
 }
 
@@ -37,27 +37,8 @@ function parsePolicies(input){
 
 
     if(type === 'string'){
-
-        var functionMatches = input.match(/^(.*)\((.*)\)$/);
-
-
-        // the policy is a function
-        if(functionMatches !== null){
-
-            var parsed = esprima.parse(functionMatches[0]);
-
-            var functionName = parsed.body[0].expression.callee.name;
-            var args = parsed.body[0].expression.arguments.map(function(arg){
-                return arg.value;
-            });
-
-
-            var policyFactory = require(sails.config.paths.policiesFactories + '/' + functionName);
-
-            var policy = policyFactory.apply(this, args);
-
-            return policy;
-        }
+        var parsedString = esprima.parse(input).body[0].expression;
+        return this.parseEsprima(parsedString);
     }
 
 
@@ -68,6 +49,40 @@ function parsePolicies(input){
 /*
     input [Esprima Object]
 */
-function parsePolicy(input){
+function parseEsprima(input){
 
+    var type = input.type;
+
+    if(type === esprimaType.value){
+        return input.value;
+    }
+
+
+    if(type === esprimaType.policy){
+
+        var policyName = input.name;
+
+        return require(sails.config.paths.policies + '/' + policyName);
+    }
+
+
+    if(type === esprimaType.factory){
+
+        var factoryName = input.callee.name;
+
+        var factory = require(sails.config.paths.policiesFactories + '/' + factoryName);
+        var args = input.arguments.map(this.parseEsprima, this);
+
+        return factory.apply(this, args);
+    }
+
+
+    throw new Error('esprima type unhandled: ' + type);
+}
+
+
+var esprimaType = {
+    value: 'Literal',
+    policy: 'Identifier',
+    factory: 'CallExpression',
 }

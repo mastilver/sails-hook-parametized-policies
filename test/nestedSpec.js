@@ -33,9 +33,9 @@ describe('parametized policies hook - nested factories', function(){
             },
             policies: {
                 'NestedController': {
-                    'policiesArgs': ['or(isAdmin, accept)'],
-                    'mixedArgs': 'or(isAdmin, is(\'User\'))',
-                    'factoriesArgs': 'or(is(\'Admin\'), is(\'User\'))',
+                    'policiesArgs': ['and(isAdmin, accept)'],
+                    'mixedArgs': 'and(isAdmin, is(\'User\'))',
+                    'factoriesArgs': 'and(is(\'Admin\'), is(\'User\'))',
                 }
             }
         }, function(err, _sails){
