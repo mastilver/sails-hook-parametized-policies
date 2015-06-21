@@ -48,8 +48,9 @@ function parsePolicies(input){
 
 /*
     input [Esprima Object]
+    fromFactory [Boolean] set to true the result will be interpreted by a factory
 */
-function parseEsprima(input){
+function parseEsprima(input, fromFactory){
 
     var type = input.type;
 
@@ -62,7 +63,11 @@ function parseEsprima(input){
 
         var policyName = input.name;
 
-        return require(sails.config.paths.policies + '/' + policyName);
+        if(fromFactory){
+            return require(sails.config.paths.policies + '/' + policyName);
+        }
+        
+        return policyName;
     }
 
 
@@ -71,7 +76,10 @@ function parseEsprima(input){
         var factoryName = input.callee.name;
 
         var factory = require(sails.config.paths.policiesFactories + '/' + factoryName);
-        var args = input.arguments.map(this.parseEsprima, this);
+
+        var args = input.arguments.map(function(arg){
+            return this.parseEsprima(arg, true);
+        }, this);
 
         return factory.apply(this, args);
     }

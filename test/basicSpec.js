@@ -65,6 +65,9 @@ describe('parametized policies hook - basic', function(){
     });
 
     it('should not modify non function policies', function(done){
+
+        sails.config.policies.MainController.ok.should.be.equal('accept');
+
         request(sails.hooks.http.app)
             .get('/ok')
             .expect(200, done);
