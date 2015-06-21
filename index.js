@@ -7,7 +7,7 @@ module.exports = function(sails){
 
         defaults: {
             paths: {
-                policiesFactories: '/api/policiesFactories',
+                policyFactories: '/api/policyFactories',
             }
         },
 
@@ -66,7 +66,7 @@ function parseEsprima(input, fromFactory){
         if(fromFactory){
             return require(sails.config.paths.policies + '/' + policyName);
         }
-        
+
         return policyName;
     }
 
@@ -75,7 +75,7 @@ function parseEsprima(input, fromFactory){
 
         var factoryName = input.callee.name;
 
-        var factory = require(sails.config.paths.policiesFactories + '/' + factoryName);
+        var factory = require(sails.config.paths.policyFactories + '/' + factoryName);
 
         var args = input.arguments.map(function(arg){
             return this.parseEsprima(arg, true);

@@ -24,7 +24,7 @@ describe('parametized policies hook - nested factories', function(){
             paths: {
                 controllers: __dirname + '/controllers',
                 policies: __dirname + '/policies',
-                policiesFactories: __dirname + '/policiesFactories',
+                policyFactories: __dirname + '/policyFactories',
             },
             routes: {
                 'GET /policies-args': 'NestedController.policiesArgs',
