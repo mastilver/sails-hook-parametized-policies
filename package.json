@@ -1,6 +1,6 @@
 {
   "name": "sails-hook-parametized-policies",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -30,5 +30,8 @@
   },
   "sails": {
     "isHook": true
+  },
+  "dependencies": {
+    "esprima": "^2.3.0"
   }
 }
