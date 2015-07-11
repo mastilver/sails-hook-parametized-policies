@@ -75,7 +75,11 @@ function parseEsprima(input, fromFactory){
 
         var factoryName = input.callee.name;
 
-        var factory = require(sails.config.paths.policyFactories + '/' + factoryName);
+        try {
+            var factory = require(sails.config.paths.policyFactories + '/' + factoryName);
+        } catch (e) {
+            return require(sails.config.paths.policies + '/' + factoryName);
+        }
 
         var args = input.arguments.map(function(arg){
             return this.parseEsprima(arg, true);

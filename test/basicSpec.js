@@ -32,6 +32,7 @@ describe('parametized policies hook - basic', function(){
                 'GET /admin': 'MainController.admin',
                 'GET /multiple': 'MainController.multiple',
                 'GET /json': 'MainController.json',
+                'GET /okParams': 'MainController.okParams',
             },
             policies: {
                 'MainController': {
@@ -40,6 +41,7 @@ describe('parametized policies hook - basic', function(){
                     'ok': 'accept',
                     'multiple': 'multiple(1, \'one\')',
                     'json': 'json(\'["json"]\')',
+                    'okParams': 'accept()'
                 }
             }
         }, function(err, _sails){
@@ -95,5 +97,11 @@ describe('parametized policies hook - basic', function(){
         request(sails.hooks.http.app)
             .get('/json')
             .expect('json', done);
+    });
+
+    it('should handle policy that look like policy factory', function(done){
+        request(sails.hooks.http.app)
+            .get('/ok')
+            .expect(200, done);
     })
 })
