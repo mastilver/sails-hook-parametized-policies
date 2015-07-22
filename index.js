@@ -1,17 +1,27 @@
+var path = require('path');
+
 var esprima = require('esprima');
+var _ = require('lodash');
 
 
 
 module.exports = function(sails){
     return {
 
-        defaults: {
-            paths: {
-                policyFactories: '/api/policyFactories',
-            }
+        defaults: function(config){
+            return {
+                paths: {
+                    policyFactories: path.resolve(config.appPath, 'api/policyFactories')
+                }
+            };
         },
 
         configure: function(){
+
+            _.extend(sails.config.paths, {
+                policyFactories: path.resolve(sails.config.appPath, sails.config.paths.policyFactories),
+            });
+
             sails.config.policies = this.parsePolicies(sails.config.policies);
         },
 

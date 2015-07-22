@@ -21,10 +21,11 @@ describe('parametized policies hook - basic', function(){
             log: {
                 level: 'error'
             },
+            appPath: __dirname,
             paths: {
-                controllers: __dirname + '/controllers',
-                policies: __dirname + '/policies',
-                policyFactories: __dirname + '/policyFactories',
+                controllers: './controllers',
+                policies: './policies',
+                policyFactories: './policyFactories',
             },
             routes: {
                 'GET /ok': 'MainController.ok',
