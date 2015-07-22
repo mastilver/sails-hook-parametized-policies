@@ -1,34 +1,33 @@
 var esprima = require('esprima');
 
 
-
-module.exports = function(sails){
+module.exports = function (sails) {
     return {
 
         defaults: {
             paths: {
-                policyFactories: '/api/policyFactories',
+                policyFactories: '/api/policyFactories'
             }
         },
 
-        configure: function(){
+        configure: function () {
             sails.config.policies = this.parsePolicies(sails.config.policies);
         },
 
         parsePolicies: parsePolicies,
-        parseEsprima: parseEsprima,
+        parseEsprima: parseEsprima
     };
-}
+};
 
 
 /*
-    input [Any]
-*/
-function parsePolicies(input){
+ input [Any]
+ */
+function parsePolicies(input) {
     var type = typeof input;
 
-    if(type === 'object'){
-        for(var i in input){
+    if (type === 'object') {
+        for (var i in input) {
             input[i] = this.parsePolicies(input[i]);
         }
 
@@ -36,7 +35,7 @@ function parsePolicies(input){
     }
 
 
-    if(type === 'string'){
+    if (type === 'string') {
         var parsedString = esprima.parse(input).body[0].expression;
         return this.parseEsprima(parsedString);
     }
@@ -47,23 +46,23 @@ function parsePolicies(input){
 
 
 /*
-    input [Esprima Object]
-    fromFactory [Boolean] set to true the result will be interpreted by a factory
-*/
-function parseEsprima(input, fromFactory){
+ input [Esprima Object]
+ fromFactory [Boolean] set to true the result will be interpreted by a factory
+ */
+function parseEsprima(input, fromFactory) {
 
     var type = input.type;
 
-    if(type === esprimaType.value){
+    if (type === esprimaType.value) {
         return input.value;
     }
 
 
-    if(type === esprimaType.policy){
+    if (type === esprimaType.policy) {
 
         var policyName = input.name;
 
-        if(fromFactory){
+        if (fromFactory) {
             return require(sails.config.paths.policies + '/' + policyName);
         }
 
@@ -71,17 +70,17 @@ function parseEsprima(input, fromFactory){
     }
 
 
-    if(type === esprimaType.factory){
+    if (type === esprimaType.factory) {
 
         var factoryName = input.callee.name;
 
         try {
-            var factory = require(sails.config.paths.policyFactories + '/' + factoryName);
+            var factory = require(sails.config.appPath + sails.config.paths.policyFactories + '/' + factoryName);
         } catch (e) {
             return require(sails.config.paths.policies + '/' + factoryName);
         }
 
-        var args = input.arguments.map(function(arg){
+        var args = input.arguments.map(function (arg) {
             return this.parseEsprima(arg, true);
         }, this);
 
@@ -96,5 +95,5 @@ function parseEsprima(input, fromFactory){
 var esprimaType = {
     value: 'Literal',
     policy: 'Identifier',
-    factory: 'CallExpression',
-}
+    factory: 'CallExpression'
+};
