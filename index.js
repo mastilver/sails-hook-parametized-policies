@@ -75,9 +75,9 @@ function parseEsprima(input, fromFactory) {
         var factoryName = input.callee.name;
 
         try {
-            var factory = require(sails.config.paths.policyFactories + '/' + factoryName);
+            var factory = require(sails.config.appPath + sails.config.paths.policyFactories + '/' + factoryName);
         } catch (e) {
-            return require(sails.config.appPath + sails.config.paths.policies + '/' + factoryName);
+            return require(sails.config.paths.policies + '/' + factoryName);
         }
 
         var args = input.arguments.map(function (arg) {
