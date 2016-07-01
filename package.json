@@ -22,7 +22,7 @@
   "homepage": "https://github.com/mastilver/sails-hook-parametized-policies#readme",
   "devDependencies": {
     "coveralls": "^2.11.2",
-    "mocha": "^2.2.5",
+    "mocha": "^2.5.0",
     "nyc": "^6.0.0",
     "sails": "^0.12.1",
     "should": "^9.0.0",
