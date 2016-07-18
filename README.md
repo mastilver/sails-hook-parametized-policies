@@ -28,31 +28,7 @@ module.exports = function(userType){
 
 or a more complex one: `or.js`
 
-```
-module.exports = function(firstPolicy, secondPolicy){
-
-    return function(req, res, next){
-
-
-        var fakeRes = {};
-
-        for(var i in res){
-            if(i === 'forbidden'){
-                // override the functions you want the `or` factory to handle
-                fakeRes[i] = function(){
-                    secondPolicy(req, res, next);
-                };
-            }
-            else{
-                fakeRes[i] = res[i];
-            }
-        }
-
-
-        firstPolicy(req, fakeRes, next);
-    }
-}
-```
+[example of OR policy with a number of arguments](https://gist.github.com/1nstinct/12399f8adc4e5cfd6e88)
 
 ## Usage
 
