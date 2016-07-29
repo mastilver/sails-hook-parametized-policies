@@ -26,7 +26,7 @@
     "nyc": "^7.1.0",
     "sails": "^0.12.1",
     "should": "^10.0.0",
-    "supertest": "^1.0.1"
+    "supertest": "^2.0.0"
   },
   "sails": {
     "isHook": true
