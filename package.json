@@ -32,7 +32,7 @@
     "isHook": true
   },
   "dependencies": {
-    "esprima": "^2.3.0",
+    "esprima": "^3.0.0",
     "lodash": "^4.5.1"
   },
   "readmeFilename": "README.md"
